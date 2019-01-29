@@ -180,9 +180,13 @@ int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
   int o = 0;
   int i = 0;
   int flx = 0;
+  int j = 1;
   int min = c->m[p][ch[1]-1];
-  while (ch[o]) o++;
-  for (int j = 1; j<o; j++) {
+  while (ch[o]) {
+    if(ch[o]==s+1) j = o;
+    o++;
+  }
+  for (j; j<o && ch[j] != t; j++) {
     i = ch[j]-1;
     // Get the available flot between two points
     flx = (c->m[p][i]>0)?(c->m[p][i]):((c->m[i][p]!=0)?(-(c->m[i][p])):(c->m[p][i]))-(f->m[p][i]);
