@@ -67,46 +67,6 @@ int Matrix_fordFulkerson(Matrix *m) {
   return fordFulkerson(m->m, 0, (m->sz)-1);
 }
 
-// Number of vertices in given graph
-#define V 6
-
-/* Returns true if there is a path from source 's' to sink 't' in
-  residual graph. Also fills parent[] to store the path */
-bool bfs(int rGraph[V][V], int s, int t, int parent[])
-{
-    // Create a visited array and mark all vertices as not visited
-    bool visited[V];
-    memset(visited, 0, sizeof(visited));
-
-    // Create a queue, enqueue source vertex and mark source vertex
-    // as visited
-    queue <int> q;
-    q.push(s);
-    visited[s] = true;
-    parent[s] = -1;
-
-    // Standard BFS Loop
-    while (!q.empty())
-    {
-        int u = q.front();
-        q.pop();
-
-        for (int v=0; v<V; v++)
-        {
-            if (visited[v]==false && rGraph[u][v] > 0)
-            {
-                q.push(v);
-                parent[v] = u;
-                visited[v] = true;
-            }
-        }
-    }
-
-    // If we reached sink in BFS starting from source, then return
-    // true, else false
-    return (visited[t] == true);
-}
-
 // Returns the maximum flow from s to t in the given graph
 //int fordFulkerson(int graph[V][V], int s, int t)
 int fordFulkerson(int **graph, int s, int t)
@@ -173,6 +133,49 @@ int** testLoad() {
     }
   }
   return g;
+}
+
+// Renvoi si une chaine augmentante existe d'un sommet S à T
+bool chaineaugmentante(int * ch, Matrix * c, Matrix * f, int s, int t)
+{
+    // Tableau de sommets visité initialisé à 0
+    bool * visited = new bool[c->sz];
+    memset(visited, 0, sizeof(visited));
+
+    // Création de la pile, on rajoute le noeud source et le compte comme visité
+    queue <int> p;
+    ch[s] = -1;
+    p.push(s);
+
+    bool stop = false;
+
+    while (!p.empty() && !stop)
+    {
+        int i = p.front();
+        p.pop();
+
+        if (i == t) // Si on est arrivé avec le parcours on arrête les machines
+        {
+          visited[i] = true;
+          stop = true;
+        }
+        else if (visited[i] == false) // On fais un parcours en profondeur en regardant si le chemin respecte les conditions d'une Chaine Augmentante
+        {
+          visited[i] = true;
+          for (int j=0; j<c->sz; j++)
+          {
+            if (visited[j] == false)
+            {
+              if ((c->m[i][j] > 0 && c->m[i][j] > f->m[i][j]) || (c->m[j][i] > 0 && f->m[j][i] > 0))
+              {
+                p.push(j);
+                ch[j] = i;
+              }
+            }
+          }
+        }
+    }
+    return (visited[t] == true); // Si on est bien arrivé à destination, ding ding Chaine augmentante !
 }
 
 int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
