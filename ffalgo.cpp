@@ -123,20 +123,35 @@ bool chaineaugmentante(int * ch, Matrix * c, Matrix * f, int s, int t)
 }
 
 int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
-  int p = 0;
+  /*int p = 0;
   int o = 0;
   int i = 0;
   int flx = 0;
   int j = 1;
 	int n = t;
 	int flag = 0;
-	int min = ch[n];
-	while(ch[n] != n && n>=0) {
+	int nd = ch[n];
+	int min = nd;*/
+
+	int u = 0;
+
+	int pf = ch[t];
+	int swp = pf;
+	for (size_t v = t; v !=s; v=ch[v]) {
+		u = ch[v];
+		swp = (c->m[u][v])-(f->m[u][v]);
+		if(swp<pf) pf=swp;
+		//std::cout << "."<< swp << " - "<< v << '\n';
+	}
+
+	return pf;
+
+	/*while(ch[n] != n && n>=0) {
 		n = ch[n];
 		if(n<min && n>0) min = n;
-		//std::cout << " "<< n << '\n';
+		std::cout << " "<< n << '\n';
 	}
-	return min;
+	return min;*/
 
   //int min = c->m[p][ch[1]-1];
   /*while (ch[o]) {
