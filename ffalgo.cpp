@@ -186,13 +186,14 @@ int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
     if(ch[o]==s+1) j = o;
     o++;
   }
-  for (j; j<o && ch[j] != t; j++) {
+  for (j; j<o; j++) {
     i = ch[j]-1;
     // Get the available flot between two points
     flx = (c->m[p][i]>0)?(c->m[p][i]):((c->m[i][p]!=0)?(-(c->m[i][p])):(c->m[p][i]))-(f->m[p][i]);
     if(min>flx && flx >= 0) min=flx;
     //std::cout << flx << "  ("<<p<<" - "<<i<<")"<< '\n';
     p = i;
+    if(ch[j] == t) break;
   }
   return min;
 }
