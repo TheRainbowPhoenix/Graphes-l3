@@ -86,7 +86,7 @@ bool chaineaugmentante(int * ch, Matrix * c, Matrix * f, int s, int t)
     bool * visited = new bool[c->sz];
     memset(visited, 0, sizeof(visited));
 
-    // Création de la pile, on rajoute le noeud source et le compte comme visité
+    // Création de la pile, on rajoute le noeud source
     queue <int> p;
     ch[s] = -1;
     p.push(s);
@@ -145,18 +145,34 @@ int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
   return min;
 }
 
-void testIncre() {
-  int ch[7] = {1,2,4,3,5,6,'\0'};
+void testCA()
+{
+  int ch[6] = {-1,-1,-1,-1,-1,-1};
   Matrix *c = Matrix_read("graph.txt");
-  Matrix *f = Matrix_fill(Matrix_init(V));
-  std::cout << increment(ch,c,f,1,6) << '\n';
+  Matrix *f = Matrix_fill(Matrix_init(6));
+  bool bch = false;
+  bch = chaineaugmentante(ch, c, f, 0, 5);
+
+  for (int i=0;i<6;++i)
+  {
+    cout << ch[i] << ' ';
+  }
+
+  cout << endl << ((bch)?"Chaine augmentante":"Pas de chaine augmentante") << endl;
+}
+
+void testIncre() {
+  int ch[6] = {-1,0,0,2,2,4};
+  Matrix *c = Matrix_read("graph.txt");
+  Matrix *f = Matrix_fill(Matrix_init(6));
+  std::cout << increment(ch,c,f,0,5) << '\n';
 }
 
 void testMatrix() {
     Matrix *m = Matrix_read("graph.txt");
     //Matrix *m = Matrix_read("graphe.txt");
     if(m != NULL) {
-      std::cout << "The maximum possible flow is " <<  Matrix_fordFulkerson(m) << '\n';
+      //std::cout << "The maximum possible flow is " <<  Matrix_fordFulkerson(m) << '\n';
     } else {
       std::cout << "Bad file !" << '\n';
     }
@@ -169,6 +185,8 @@ int main()
 {
     std::cout << " == test Matrix ==" << '\n';
     testMatrix();
+    std::cout << " == test Chaine Augm. ==" << '\n';
+    testCA();
     std::cout << " == test Incre ==" << '\n';
     testIncre();
     // std::cout << " == test Load ==" << '\n';
