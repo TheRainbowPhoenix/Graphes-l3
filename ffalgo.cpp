@@ -128,8 +128,18 @@ int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
   int i = 0;
   int flx = 0;
   int j = 1;
-  int min = c->m[p][ch[1]-1];
-  while (ch[o]) {
+	int n = t;
+	int flag = 0;
+	int min = ch[n];
+	while(ch[n] != n && n>=0) {
+		n = ch[n];
+		if(n<min && n>0) min = n;
+		//std::cout << " "<< n << '\n';
+	}
+	return min;
+
+  //int min = c->m[p][ch[1]-1];
+  /*while (ch[o]) {
     if(ch[o]==s+1) j = o;
     o++;
   }
@@ -142,7 +152,7 @@ int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
     p = i;
     if(ch[j] == t) break;
   }
-  return min;
+  return min;*/
 }
 
 void testCA()
