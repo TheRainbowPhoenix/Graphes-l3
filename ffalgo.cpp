@@ -45,6 +45,15 @@ Matrix * Matrix_read(string fname) {
   return matrix;
 }
 
+Matrix * Matrix_fill(Matrix *m) {
+  for (size_t x = 0; x < m->sz; x++) {
+    for (size_t y = 0; y < m->sz; y++) {
+      m->m[x][y] = 0;
+    }
+  }
+  return m;
+}
+
 void Matrix_print(Matrix *m) {
   for (size_t x = 0; x < m->sz; x++) {
     for (size_t y = 0; y < m->sz; y++) {
@@ -167,28 +176,27 @@ int** testLoad() {
 }
 
 int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
-  int max = 0;
   int p = 0;
   int o = 0;
   int i = 0;
+  int flx = 0;
+  int min = c->m[p][ch[1]-1];
   while (ch[o]) o++;
   for (int j = 1; j<o; j++) {
     i = ch[j]-1;
-    if(c->m[p][i]==0 && c->m[i][p]!=0) {
-      std::cout << -(c->m[i][p]) << "  ("<<p<<" - "<<i<<")"<< '\n';
-    } else {
-      std::cout << c->m[p][i] << "  ("<<p<<" - "<<i<<")"<< '\n';
-    }
-    //std::cout << *ch << '\n';
+    // Get the available flot between two points
+    flx = (c->m[p][i]>0)?(c->m[p][i]):((c->m[i][p]!=0)?(-(c->m[i][p])):(c->m[p][i]))-(f->m[p][i]);
+    if(min>flx && flx >= 0) min=flx;
+    //std::cout << flx << "  ("<<p<<" - "<<i<<")"<< '\n';
     p = i;
   }
-  return max;
+  return min;
 }
 
 void testIncre() {
   int ch[7] = {1,2,4,3,5,6,'\0'};
   Matrix *c = Matrix_read("graph.txt");
-  Matrix *f = Matrix_init(V);
+  Matrix *f = Matrix_fill(Matrix_init(V));
   std::cout << increment(ch,c,f,1,6) << '\n';
 }
 
