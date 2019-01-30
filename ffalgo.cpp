@@ -123,15 +123,6 @@ bool chaineaugmentante(int * ch, Matrix * c, Matrix * f, int s, int t)
 }
 
 int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
-  /*int p = 0;
-  int o = 0;
-  int i = 0;
-  int flx = 0;
-  int j = 1;
-	int n = t;
-	int flag = 0;
-	int nd = ch[n];
-	int min = nd;*/
 
 	int u = 0;
 
@@ -145,29 +136,6 @@ int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
 	}
 
 	return pf;
-
-	/*while(ch[n] != n && n>=0) {
-		n = ch[n];
-		if(n<min && n>0) min = n;
-		std::cout << " "<< n << '\n';
-	}
-	return min;*/
-
-  //int min = c->m[p][ch[1]-1];
-  /*while (ch[o]) {
-    if(ch[o]==s+1) j = o;
-    o++;
-  }
-  for (j; j<o; j++) {
-    i = ch[j]-1;
-    // Get the available flot between two points
-    flx = (c->m[p][i]>0)?(c->m[p][i]):((c->m[i][p]!=0)?(-(c->m[i][p])):(c->m[p][i]))-(f->m[p][i]);
-    if(min>flx && flx >= 0) min=flx;
-    //std::cout << flx << "  ("<<p<<" - "<<i<<")"<< '\n';
-    p = i;
-    if(ch[j] == t) break;
-  }
-  return min;*/
 }
 
 void testCA()
