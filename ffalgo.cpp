@@ -138,6 +138,33 @@ int increment(int* ch, Matrix *c, Matrix *f, int s, int t) {
 	return pf;
 }
 
+int flotmax(Matrix *c, Matrix *f, int s, int t)
+{
+
+	int max_flow = 0;
+	int i, j;
+
+	int *ch = new int[c->sz];
+	memset(ch, 0, sizeof(ch));
+ 
+    while (chaineaugmentante(ch, c, f, s, t))
+    {
+
+    	int flow = increment(ch, c, f, s, t);
+
+    	for (j=t; j!=s ; j=ch[j])
+    	{
+    		i = ch[j];
+    		f->m[i][j] += flow;
+    		f->m[j][i] -= flow;
+    	}
+
+    	max_flow += flow;
+    }
+ 
+    return max_flow;
+}
+
 void testCA()
 {
   int ch[6] = {-1,-1,-1,-1,-1,-1};
@@ -161,6 +188,18 @@ void testIncre() {
   std::cout << increment(ch,c,f,0,5) << '\n';
 }
 
+void testflot() {
+  Matrix *c = Matrix_read("graph.txt");
+  Matrix *f = Matrix_fill(Matrix_init(6));
+  int flow = flotmax(c,f,0,5);
+  Matrix_print(c);
+  cout << endl;
+  Matrix_print(f);
+  cout << endl;
+  std::cout << "Flow max = " << flow << '\n';
+
+}
+
 void testMatrix() {
     Matrix *m = Matrix_read("graph.txt");
     //Matrix *m = Matrix_read("graphe.txt");
@@ -182,30 +221,8 @@ int main()
     testCA();
     std::cout << " == test Incre ==" << '\n';
     testIncre();
-    // std::cout << " == test Load ==" << '\n';
-    // testLoad();
-    // Let us create a graph shown in the above example
-    // int graph[V][V] = { {0, 16, 13, 0, 0, 0},
-    //                     {0, 0, 10, 12, 0, 0},
-    //                     {0, 4, 0, 0, 14, 0},
-    //                     {0, 0, 9, 0, 0, 20},
-    //                     {0, 0, 0, 7, 0, 4},
-    //                     {0, 0, 0, 0, 0, 0}
-    //                   };
-
-    // cout << "The maximum possible flow is " << fordFulkerson(graph, 0, 5);
-
-  //   int graph[V][V] = { {0, 3, 2, 2, 0, 0, 0, 0},
-  //   {0, 0, 0, 0, 5, 1, 0, 0},
-  //   {0, 0, 0, 0, 1, 3, 1, 0},
-  //   {0, 0, 0, 0, 0, 1, 0, 0},
-  //   {0, 0, 0, 0, 0, 0, 0, 4},
-  //   {0, 0, 0, 0, 0, 0, 0, 2},
-  //   {0, 0, 0, 0, 0, 0, 0, 4},
-  //   {0, 0, 0, 0, 0, 0, 0, 0},
-	// };
-
-	//cout << "The maximum possible flow is " << fordFulkerson(graph, 0, 7) << "\n";
+    std::cout << " == test Flot max ==" << '\n';
+    testflot();
 
     return 0;
 }
