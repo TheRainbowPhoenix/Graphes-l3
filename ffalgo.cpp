@@ -1,4 +1,3 @@
-// C++ program for implementation of Ford Fulkerson algorithm
 #include <iostream>
 #include <limits.h>
 #include <string.h>
@@ -212,7 +211,7 @@ void testMatrix() {
     Matrix_print(m);
 }
 
-// Driver program to test above functions
+// THE MAIN MENU
 int main()
 {
     std::cout << " == test Matrix ==" << '\n';
