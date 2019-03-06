@@ -8,7 +8,18 @@
 #include <queue>
 #include <fstream>
 #include <algorithm>
+#include <vector>
+#include <fstream>
+#include <limits>
+#include <utility>
+
+#include <bits/stdc++.h>
+
 using namespace std;
+
+typedef pair<int, int> cPair;
+
+bool comp = [](const pair<int, int> &a, const pair<int, int> &b) {return a.second > b.second; };
 
 struct Matrix {
 	int sz;
@@ -108,8 +119,55 @@ int ** MooreDijkstra(int s) {
 //MooreDijkstra()
 
 int main(int argc, char const *argv[]) {
-  Mtr = Matrix_read("graph.txt");
-  Matrix_print(Mtr);
-  MooreDijkstra(8);
+  //Mtr = Matrix_read("graph.txt");
+  //Matrix_print(Mtr);
+  //MooreDijkstra(8);
+
+	int nodesCount = 1;
+	int edgesCount = 1;
+
+	vector<vector<cPair > > G(nodesCount);
+
+	vector<int> d(nodesCount, numeric_limits<int>::max());
+	vector<int> pere(nodesCount, -1);
+
+	int o = 1; // start node
+	int s = 0;
+
+	d[o] = s;
+
+	priority_queue<cPair, vector<cPair>, greater<cPair> > pq;
+
+	pq.push(make_pair(o, s));
+
+	while (!pq.empty()) {
+		int v = pq.top().first;
+    int w = pq.top().second;
+		pq.pop();
+
+		std::cout << "a" << '\n';
+
+		if(w<=d[v]) {
+			for (cPair & it : G[v]) {
+				int v2 = it.first;
+        int w2 = it.second;
+				if(d[v] + w2 < d[v2]) { // d crash
+					d[v2] = d[v] + w2;
+					pere[v2] = v;
+					pq.push(make_pair(v2, d[v2]));
+				}
+			}
+		}
+	}
+
+	for (size_t i = 0; i <= nodesCount; ++i) {
+		cout << "\n ⬗ Path from " << o << " to " << i << " cost " << d[i] << endl;
+
+		cout << i;
+    for (int p = pere[i]; p != -1; p = pere[p])
+      cout << " ⮘ " << p;
+		cout << endl;
+	}
+
   return 0;
 }
